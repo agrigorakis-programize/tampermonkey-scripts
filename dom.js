@@ -60,7 +60,7 @@
         }
 
         // Observer element
-        MITOS.dom.observer.elementChanges(selector, el => {
+        MITOS.dom.observer.element(selector, el => {
 
             // Check if already available
             const value = el.getAttribute(attributeName);
@@ -95,7 +95,7 @@
     };
 
 	
-	MITOS.dom.observer.changes = function observeChanges(selector, callback, options = { childList: true, subtree: true }) {
+	MITOS.dom.observer.elementChanges = function observeChanges(selector, callback, options = { childList: true, subtree: true }) {
 	    if (!selector) {
 	        MITOS.log.warn("Observer selector not provided");
 	        return;
