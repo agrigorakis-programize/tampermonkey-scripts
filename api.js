@@ -67,4 +67,6 @@
 		const dateTime = now.toLocaleString('en-GB');
 		console.log(`🧩 ${dateTime} [INFO] [${caller}] API module loaded`);
 	}
+
+	MITOS.log.ping("api.js");
 })();
