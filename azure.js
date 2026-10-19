@@ -54,4 +54,6 @@
 		const dateTime = now.toLocaleString('en-GB');
 		console.log(`🧩 ${dateTime} [INFO] [${caller}] AZURE module loaded`);
 	}
+
+	MITOS.log.ping("azure.js");
 })();
