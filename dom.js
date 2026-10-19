@@ -94,7 +94,6 @@
         });
     };
 
-	
 	MITOS.dom.observer.elementChanges = function observeChanges(selector, callback, options = { childList: true, subtree: true }) {
 	    if (!selector) {
 	        MITOS.log.warn("Observer selector not provided");
