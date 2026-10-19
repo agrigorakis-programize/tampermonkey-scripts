@@ -205,4 +205,6 @@
 			const dateTime = now.toLocaleString('en-GB');
 			console.log(`🧩 ${dateTime} [INFO] [${caller}] JIRA module loaded`);
 	}
+
+	MITOS.log.ping("jira.js");
 })();
