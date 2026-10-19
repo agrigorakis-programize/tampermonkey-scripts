@@ -49,6 +49,17 @@
         return apiRequest({ method: "POST", url, data, headers: buildAuthHeader(pat) });
     };
 
+	MITOS.azure.getTWorkItemState = async function (endpoint, pat) {
+	    if (!endpoint) {
+			MITOS.log.warning("Work Item endpoint has not been specified");
+			return
+	    }
+	
+	    const result = await MITOS.azure.api.get(endpoint, pat);
+	
+	    return result?.fields?.["System.State"] ?? null;
+	};
+
     MITOS.azure.ping = function(caller = "Unknown") {
 		const now = new Date();
 		const dateTime = now.toLocaleString('en-GB');
