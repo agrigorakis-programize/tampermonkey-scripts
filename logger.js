@@ -70,10 +70,10 @@
 		logger(message, stack, domain, "[ERROR]", "🔴", "color: Crimson; font-weight:normal;");
 	}
 
-	MITOS.log.ping = function(caller = "Unknown") {
+	MITOS.log.ping = function(moduleName = "Unknown") {
 		const now = new Date();
 		const dateTime = now.toLocaleString('en-GB');
-		console.log(`🧩 ${dateTime} [INFO] [${caller}] LOG module loaded`);
+		console.log(`🧩 ${dateTime} [INFO] [$moduleName] loaded`);
 	}
 })
 ();
