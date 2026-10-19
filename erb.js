@@ -474,4 +474,6 @@
             fetchDealDetails(match);
         });
     }
+
+    MITOS.log.ping("erb.js");
 })();
