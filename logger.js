@@ -58,6 +58,10 @@
 		console.groupEnd();
 	}; 
 
+	MITOS.log.debug = MITOS.log.info = function(message, stack=null, domain=defaultDomain) {
+		logger(message, stack, domain, "[DEBUG] ", "👾", "color: #464646; font-weight:normal;");
+	}
+		
 	MITOS.log.info = function(message, stack=null, domain=defaultDomain) {
 		logger(message, stack, domain, "[INFO] ", "🔵", "color: SteelBlue; font-weight:normal;");
 	}
@@ -73,7 +77,7 @@
 	MITOS.log.ping = function(moduleName = "Unknown") {
 		const now = new Date();
 		const dateTime = now.toLocaleString('en-GB');
-		console.log(`🧩 ${dateTime} 🚀 Programize | IT MiTOS Support | [$moduleName] loaded`);
+		MITOS.log.debug(`🚀 Programize | IT MiTOS Support | [$moduleName] loaded`);
 	}
 
 	MITOS.log.ping("logger.js");
