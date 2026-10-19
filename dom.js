@@ -94,6 +94,32 @@
         });
     };
 
+	
+	MITOS.dom.observer.changes = function observeChanges(selector, callback, options = { childList: true, subtree: true }) {
+	    if (!selector) {
+	        MITOS.log.warn("Observer selector not provided");
+	        return;
+	    }
+	
+	    if (typeof callback !== "function") {
+	        MITOS.log.warn("Observer callback is invalid");
+	        return;
+	    }
+	
+	    MITOS.dom.observer.element(selector, element => {
+	        const observer = new MutationObserver(() => {
+	            callback(element);
+	        });
+	
+	        observer.observe(element, options);
+	
+	        // Process the element's current state immediately
+	        callback(element);
+	
+	        MITOS.log.info(`Observing changes in <${selector}>`);
+	    });
+	};
+
     MITOS.dom.elementExists = function(selector) {
         if(!selector) {
             MITOS.log.warn("Element selector not provided");
