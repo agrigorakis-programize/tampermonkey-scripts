@@ -73,7 +73,7 @@
 	MITOS.log.ping = function(moduleName = "Unknown") {
 		const now = new Date();
 		const dateTime = now.toLocaleString('en-GB');
-		console.log(`🧩 ${dateTime} [INFO] [$moduleName] loaded`);
+		console.log(`🧩 ${dateTime} 🚀 Programize | IT MiTOS Support | [$moduleName] loaded`);
 	}
 })
 ();
