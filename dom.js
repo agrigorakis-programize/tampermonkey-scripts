@@ -219,4 +219,6 @@
 		const dateTime = now.toLocaleString('en-GB');
 		console.log(`🧩 ${dateTime} [INFO] [${caller}] DOM module loaded`);
 	}
+
+	MITOS.log.ping("dom.js");
 })();
