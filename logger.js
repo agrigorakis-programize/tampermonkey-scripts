@@ -75,5 +75,7 @@
 		const dateTime = now.toLocaleString('en-GB');
 		console.log(`🧩 ${dateTime} 🚀 Programize | IT MiTOS Support | [$moduleName] loaded`);
 	}
+
+	MITOS.log.pin("logger.js");
 })
 ();
