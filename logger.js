@@ -63,15 +63,15 @@
 	}
 		
 	MITOS.log.info = function(message, stack=null, domain=defaultDomain) {
-		logger(message, stack, domain, "[INFO] ", "🔵", "color: SteelBlue; font-weight:normal;");
+		logger(message, stack, domain, "[INFO]  ", "🔵", "color: SteelBlue; font-weight:normal;");
 	}
 
 	MITOS.log.warn = function(message, stack=null, domain=defaultDomain) {
-		logger(message, stack, domain, "[WARN] ", "🟡", "color: Orange; font-weight:normal;");
+		logger(message, stack, domain, "[WARN]  ", "🟡", "color: Orange; font-weight:normal;");
 	}
 
 	MITOS.log.error = function(message, stack=null, domain=defaultDomain) {
-		logger(message, stack, domain, "[ERROR]", "🔴", "color: Crimson; font-weight:normal;");
+		logger(message, stack, domain, "[ERROR] ", "🔴", "color: Crimson; font-weight:normal;");
 	}
 
 	MITOS.log.ping = function(moduleName = "Unknown") {
