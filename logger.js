@@ -77,7 +77,7 @@
 	MITOS.log.ping = function(moduleName = "Unknown") {
 		const now = new Date();
 		const dateTime = now.toLocaleString('en-GB');
-		MITOS.log.debug(`${moduleName} loaded`);
+		MITOS.log.debug(`🧩 ${moduleName} loaded`);
 	}
 
 	MITOS.log.ping("logger.js");
