@@ -94,7 +94,11 @@
         });
     };
 
-	MITOS.dom.observer.elementChanges = function observeChanges(selector, callback, options = { childList: true, subtree: true }) {
+	MITOS.dom.observer.elementChanges = function observeChanges(
+	    selector,
+	    callback,
+	    options = { childList: true, subtree: true }
+	) {
 	    if (!selector) {
 	        MITOS.log.warn("Observer selector not provided");
 	        return;
@@ -105,20 +109,39 @@
 	        return;
 	    }
 	
-	    MITOS.dom.observer.element(selector, element => {
-	        const observer = new MutationObserver(() => {
-	            callback(element);
-	        });
+	    // Prevent duplicate processing of the same element state
+	    let lastElement = null;
+	    let scheduled = false;
 	
-	        observer.observe(element, options);
+	    const process = () => {
+	        scheduled = false;
 	
-	        // Process the element's current state immediately
+	        const element = document.querySelector(selector);
+	        if (!element) return;
+	
+	        lastElement = element;
 	        callback(element);
+	    };
 	
-	        MITOS.log.info(`Observing changes in <${selector}>`);
+	    const observer = new MutationObserver(() => {
+	        if (scheduled) return;
+	
+	        scheduled = true;
+	        queueMicrotask(process);
 	    });
+	
+	    // Observe the document so we detect both content changes
+	    // and replacement of the target element itself.
+	    observer.observe(document.body, {
+	        childList: true,
+	        subtree: true
+	    });
+	
+	    // Process the current state immediately.
+	    process();
+	
+	    MITOS.log.info(`Observing changes in <${selector}>`);
 	};
-
     MITOS.dom.elementExists = function(selector) {
         if(!selector) {
             MITOS.log.warn("Element selector not provided");
