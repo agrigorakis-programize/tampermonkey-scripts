@@ -60,7 +60,7 @@
         }
 
         // Observer element
-        MITOS.dom.observer.element(selector, el => {
+        MITOS.dom.observer.elementChanges(selector, el => {
 
             // Check if already available
             const value = el.getAttribute(attributeName);
