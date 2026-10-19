@@ -76,6 +76,6 @@
 		console.log(`🧩 ${dateTime} 🚀 Programize | IT MiTOS Support | [$moduleName] loaded`);
 	}
 
-	MITOS.log.pin("logger.js");
+	MITOS.log.ping("logger.js");
 })
 ();
