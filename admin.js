@@ -37,7 +37,9 @@
         return `
             <div id="mitos-admin-elevation" class="btn-header transparent pull-right">
                 <span>
-                    <i class="fa fa-unlock" aria-hidden="true"></i>
+                    <a href="" title="Elevate" disabled>
+                        <i class="fa fa-unlock" aria-hidden="true"></i>
+                    </a>
                 </span>
             </div>
         `;
