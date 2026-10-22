@@ -559,7 +559,9 @@
                         return;
                     }
     
-                    window.location.hash = `${route}${folderID}/preview`;
+                    // Uses current window
+                    //window.location.hash = `${route}${folderID}/preview`;
+                    window.open(`${MITOS.config.erbBaseURL}#!/default/applicationSearch/folders/${encodeURIComponent(folderID)}/preview`, "_blank");
                 };
             }
         }
