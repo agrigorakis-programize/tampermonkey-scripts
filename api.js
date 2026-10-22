@@ -77,6 +77,7 @@
 	        }
 	
 	        const body = new URLSearchParams({
+	            grant_type: "password",
 	            username: username,
 	            password: password
 	        }).toString();
@@ -91,7 +92,9 @@
 	
 	            onload: function (response) {
 	                if (response.status < 200 || response.status >= 300) {
-	                    MITOS.log.error(`OAuth | Authentication failed (${response.status})`);
+	                    MITOS.log.error(
+	                        `OAuth | Authentication failed (${response.status}): ${response.responseText}`
+	                    );
 	                    reject(new Error(`Authentication failed (${response.status})`));
 	                    return;
 	                }
@@ -101,8 +104,7 @@
 	                    const token = result.access_token;
 	
 	                    if (!token) {
-	                        reject(new Error("OAuth | Access token missing from response"));
-	                        return;
+	                        throw new Error("Access token missing from response");
 	                    }
 	
 	                    resolve(token);
