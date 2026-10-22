@@ -33,6 +33,23 @@
     }
 
     /*** HTML ***/
+    function adminElevationBtnHTML() {
+        return `
+            <div id="mitos-admin-elevation" class="btn-header transparent pull-right">
+                <span>
+                    <a href="login.html"
+                       title="Elevate"
+                       data-action=""
+                       data-ng-hide="!"
+                       data-logout-msg="Elevate your privileges to an Administrator User">
+                        <i class="fa fa-unlock" aria-hidden="true"></i>
+                    </a>
+                </span>
+            </div>
+        `;
+    }
+
+    
     function favoritesToolbarHTML() {
         const favoritesConfiguration = getFavoritesConfiguration();
 
@@ -937,6 +954,20 @@ function renderActivityTree(nodes, level = 0) {
         return setInterval(pollFaultedInstances, intervalMs);
     }
 
+    MITOS.admin.toolbar.addElevateButton = function renderFavoritesToolbar() {
+        MITOS.log.info("Admin Toolbar | Adding Elevation Button . . .");
+
+        if(MITOS.dom.elementExists("#mitos-admin-elevation")) {
+            MITOS.log.info("Admin elevation button is already available");
+            return;
+        }
+
+        // Inject CSS
+        // Inject HTML
+        MITOS.dom.html("#logout", "afterend", adminElevationBtnHTML());
+        // Events
+    }
+    
     MITOS.admin.toolbar.addFavorites = function renderFavoritesToolbar() {
         MITOS.log.info("Admin Toolbar | Adding Favorites . . .");
 
