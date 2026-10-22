@@ -954,7 +954,7 @@ function renderActivityTree(nodes, level = 0) {
         return setInterval(pollFaultedInstances, intervalMs);
     }
 
-    MITOS.admin.toolbar.addElevateButton = function renderFavoritesToolbar() {
+    MITOS.admin.addAdminElevateButton = function renderAdminElevateButton() {
         MITOS.log.info("Admin Toolbar | Adding Elevation Button . . .");
 
         if(MITOS.dom.elementExists("#mitos-admin-elevation")) {
