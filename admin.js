@@ -756,10 +756,9 @@
             `;
         }
 
-        return renderNodes(faultedPaths, level * 16);
-    }
+    return renderNodes(faultedPaths, level * 16);
+}
 
-    
 function renderActivityTree(nodes, level = 0) {
     if (!nodes?.length) return "";
 
@@ -972,7 +971,7 @@ function renderActivityTree(nodes, level = 0) {
         // Inject HTML
         MITOS.dom.html("#logout", "afterend", adminElevationBtnHTML());
         // Events
-        MITOS.dom.observer.element("#mitos-admin-elevation", favoritesToolbarEvents);
+        MITOS.dom.observer.element("#mitos-admin-elevation", adminElevationBtnEvents); 
     }
     
     MITOS.admin.toolbar.addFavorites = function renderFavoritesToolbar() {
@@ -988,7 +987,7 @@ function renderActivityTree(nodes, level = 0) {
         // Inject HTML
         MITOS.dom.html("#logo-group", "afterend", favoritesToolbarHTML());
         // Events
-        MITOS.dom.observer.element("#mitos-admin-favorites-toolbar", adminElevationBtnEvents);
+        MITOS.dom.observer.element("#mitos-admin-favorites-toolbar", favoritesToolbarEvents);
     }
 
     MITOS.admin.toolbar.addInstanceDetails = async function renderInstanceToolbar(match) {
