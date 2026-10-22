@@ -364,6 +364,11 @@
                 overflow-y: scroll;
             }
 
+            #mitos-admin-activity-tree-modal a {
+                margin-bottom: 2px;
+                display: inline-block;
+            }
+
             .modal-title-wrapper {
                 display: grid;
                 padding: 1px 12px;
