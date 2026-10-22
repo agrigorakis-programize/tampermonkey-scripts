@@ -243,10 +243,7 @@
                 flex-wrap: wrap;
                 align-items: center;
                 gap: 6px 14px;
-                font-size: 12px;
-                background: #f7f7f7;
-                position: relative;
-                top: 8px;
+                font-size: 13px;
                 padding: 3px 12px;
                 margin: -8px;
                 border-radius: 4px;
@@ -274,7 +271,8 @@
             }
     
             .mitos-erb-btn {
-                padding: 3px 5px;
+                position: relative;
+                top: -1px;
                 margin-left: 2px;
                 border: 1px solid whitesmoke;
                 border-radius: 6px;
