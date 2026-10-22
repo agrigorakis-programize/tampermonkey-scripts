@@ -520,6 +520,79 @@
         document.querySelector("span#activity-desc").innerHTML = activityDesc;
     }
 
+    function updateDealSearchDetails(container) {
+        const infoLink = container.querySelector(".infoIcon a[uib-popover]");
+    
+        if (!infoLink) {
+            MITOS.log.warn("ERB Toolbar | Deal Search Details: Popover not found");
+            return;
+        }
+    
+        const popover = infoLink.getAttribute("uib-popover") || "";
+    
+        const folderMatch = popover.match(
+            /(?:^|,)\s*Φάκελος\s*:\s*([^,]*)/i
+        );
+    
+        const flowMatch = popover.match(
+            /(?:^|,)\s*Ροή\s*([^,]*)/i
+        );
+    
+        const folderID = folderMatch?.[1]?.trim() || null;
+        const instanceID = flowMatch?.[1]?.trim() || null;
+    
+        const folderLink = container.querySelector(".mitos-erb-folder-link");
+        const flowLink = container.querySelector(".mitos-erb-case-link");
+        const buttons = container.querySelectorAll(".mitos-erb-btn");
+    
+        // Update Folder ID
+        if (folderLink) {
+            folderLink.textContent = folderID || "N/A";
+    
+            if (folderID) {
+                folderLink.href = "#";
+                folderLink.onclick = event => {
+                    event.preventDefault();
+    
+                    const route = MITOS.config?.FolderViewHash;
+    
+                    if (!route) {
+                        MITOS.log.warn(
+                            "ERB Toolbar | FolderViewHash is not configured"
+                        );
+                        return;
+                    }
+    
+                    window.location.hash = `${route}${folderID}/preview`;
+                };
+            }
+        }
+    
+        if (buttons[0]) {
+            buttons[0].dataset.value = folderID || "";
+            buttons[0].disabled = !folderID;
+        }
+    
+        // Update Instance ID
+        if (flowLink) {
+            flowLink.textContent = instanceID || "N/A";
+    
+            if (instanceID) {
+                flowLink.href ="https://adminclient-mitos.azure.cld/apps/admin/#/Cases/Instances/${encodeURIComponent(instanceID)}/history/diagram?isAdHoc=0";
+            } else {
+                flowLink.removeAttribute("href");
+            }
+        }
+    
+        if (buttons[1]) {
+            buttons[1].dataset.value = instanceID || "";
+            buttons[1].disabled = !instanceID;
+        }
+    
+        MITOS.log.info(`ERB Toolbar | Deal Search Details: Folder ${folderID || "N/A"} | Flow ${instanceID || "N/A"}`);
+    }
+
+
     /*** Methods ***/
     MITOS.erb.toolbar.addTaskFilter = function renderTaskFilter() {
         MITOS.log.info("ERB Toolbar | Adding Task Filter . . .");
@@ -589,6 +662,63 @@
             fetchDealDetails(match);
         });
     }
+
+    MITOS.erb.toolbar.addDealSearchDetails = function renderDealSearchDetails() {
+        MITOS.log.info("ERB Toolbar | Deal Search Details . . .");
+    
+        const cardSelector = ".entity-card";
+        const toolbarClass = "mitos-erb-search-details";
+    
+        // Inject CSS.
+        MITOS.dom.css(dealSearchDetailsCSS(), "mitos-erb-search-details-css");
+
+        function initializeCard(card) {
+            // Avoid injecting duplicate controls.
+            if (card.querySelector(`.${toolbarClass}`)) {
+                return;
+            }
+    
+            const infoLink = card.querySelector(".infoIcon a[uib-popover]");
+    
+            if (!infoLink) {
+                return;
+            }
+    
+            // Inject the toolbar into result card.
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = dealSearchDetailsHTML();
+    
+            const toolbar = wrapper.firstElementChild;
+    
+            if (!toolbar) {
+                return;
+            }
+    
+            card.appendChild(toolbar);
+    
+            // Bind copy events and populate the values.
+            dealSearchDetailsEvents(toolbar);
+            updateDealSearchDetails(card);
+        }
+    
+        // Process all result cards.
+        function processCards() {
+            document.querySelectorAll(cardSelector).forEach(initializeCard);
+        }
+    
+        processCards();
+    
+        const observer = new MutationObserver(() => {
+            processCards();
+        });
+    
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    
+        MITOS.log.info("ERB Toolbar | Deal Search Details initialized");
+    };
 
     MITOS.log.ping("erb.js");
 })();
