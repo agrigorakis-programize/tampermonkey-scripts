@@ -729,7 +729,60 @@
         return renderNodes(faultedPaths, level * 16);
     }
 
-    function renderActivityTree(nodes, level = 0) {
+    
+function renderActivityTree(nodes, level = 0) {
+    if (!nodes?.length) return "";
+
+    function filterFaultedPath(node) {
+        const children = (node.children || [])
+            .map(filterFaultedPath)
+            .filter(Boolean);
+
+        if (node.status !== "Faulted" && !children.length) {
+            return null;
+        }
+
+        return { ...node, children };
+    }
+
+    function renderNodes(nodes, indent = 0, parent = null) {
+        return nodes.map(node => {
+            const isNested = indent > 0;
+            const color = node.status === "Faulted" ? "Crimson" : "WhiteSmoke";
+
+            const link = parent?.type === "SubProcess"
+                ? `${MITOS.config.InstanceHistoryURL}/${parent.id}/history/diagram?isAdHoc=0`
+                : null;
+
+            const label = `${node.desc} (${node.type})`;
+
+            const content = link
+                ? `<a href="${link}" target="_blank" rel="noopener noreferrer"
+                       style="color:${color}; text-decoration:none; border-bottom:1px dotted gray;">
+                       ${label}
+                   </a>`
+                : `<span style="color:${color}">${label}</span>`;
+
+            const children = node.children?.length
+                ? renderNodes(node.children, indent + 16, node)
+                : "";
+
+            return `
+                <div style="margin-left:${indent}px;">
+                    ${isNested ? "↪ " : ""}${content}
+                    ${children}
+                </div>
+            `;
+        }).join("");
+    }
+        const faultedPaths = nodes
+            .map(filterFaultedPath)
+            .filter(Boolean);
+    
+        return renderNodes(faultedPaths, level * 16);
+    }
+
+    function renderActivityTree_DEPRECATED(nodes, level = 0) {
         if (!nodes || !nodes.length) return "";
 
         function includeFaultedPath(node) {
