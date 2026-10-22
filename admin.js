@@ -418,9 +418,7 @@
 
     /*** Events ***/
     function adminElevationBtnEvents() {
-        const button = document.querySelector(
-            "#mitos-admin-elevation a"
-        );
+        const button = document.querySelector("#mitos-admin-elevation");
     
         if (!button || button.dataset.eventsBound) {
             return;
@@ -437,7 +435,6 @@
         });
     }
 
-    
     function favoritesToolbarEvents() {
         const favoritesConfiguration = getFavoritesConfiguration();
 
