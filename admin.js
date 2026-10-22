@@ -408,14 +408,6 @@
         `;
     }
 
-    function activityTreeModalCSS() {
-        return `
-        div#mitos-admin-activity-tree-body {
-            padding: 6px 12px;
-        }
-        `;
-    }
-
     /*** Events ***/
     function adminElevationBtnEvents() {
         const button = document.querySelector("#mitos-admin-elevation");
