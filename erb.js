@@ -555,9 +555,7 @@
                     const route = MITOS.config?.FolderViewHash;
     
                     if (!route) {
-                        MITOS.log.warn(
-                            "ERB Toolbar | FolderViewHash is not configured"
-                        );
+                        MITOS.log.warn("ERB Toolbar | FolderViewHash is not configured");
                         return;
                     }
     
@@ -576,7 +574,7 @@
             flowLink.textContent = instanceID || "N/A";
     
             if (instanceID) {
-                flowLink.href ="https://adminclient-mitos.azure.cld/apps/admin/#/Cases/Instances/${encodeURIComponent(instanceID)}/history/diagram?isAdHoc=0";
+                flowLink.href = `${MITOS.config.adminBaseURL}apps/admin/#/Cases/Instances/${encodeURIComponent(instanceID)}/history/diagram?isAdHoc=0`;
             } else {
                 flowLink.removeAttribute("href");
             }
