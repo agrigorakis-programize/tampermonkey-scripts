@@ -357,8 +357,10 @@
                 min-height: 400px;
                 left: 472px;
                 top: 54px;
-                width: 400px;
+                width: auto;
+                max-width: 1200px;
                 max-height: 600px;
+                white-space: nowrap;
                 overflow-y: scroll;
             }
 
