@@ -445,6 +445,47 @@
         });
     }
 
+    function dealSearchDetailsEvents(container) {
+        const buttons = container.querySelectorAll(".mitos-erb-btn");
+    
+        buttons.forEach(btn => {
+            if (btn.dataset.eventsBound === "true") {
+                return;
+            }
+    
+            btn.dataset.eventsBound = "true";
+    
+            btn.addEventListener("click", async () => {
+                const value = btn.dataset.value;
+    
+                if (!value || btn.disabled) {
+                    return;
+                }
+    
+                try {
+                    await navigator.clipboard.writeText(value);
+    
+                    MITOS.log.info(
+                        "ERB Toolbar | Copied <" + value + "> to clipboard"
+                    );
+    
+                    const originalText = btn.textContent;
+                    btn.textContent = "✔️";
+    
+                    setTimeout(() => {
+                        if (btn.isConnected) {
+                            btn.textContent = originalText;
+                        }
+                    }, 1000);
+                } catch (err) {
+                    MITOS.log.error(
+                        "ERB Toolbar | Failed to copy <" + value + ">: " + err
+                    );
+                }
+            });
+        });
+    }
+
     /*** Helpers ***/
     function fetchDealDetails(match) {
         const folderID = match[1];
