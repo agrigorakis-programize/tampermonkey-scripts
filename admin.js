@@ -49,7 +49,6 @@
         `;
     }
 
-    
     function favoritesToolbarHTML() {
         const favoritesConfiguration = getFavoritesConfiguration();
 
@@ -422,6 +421,26 @@
     }
 
     /*** Events ***/
+    function adminElevationBtnEvents() {
+        const button = document.querySelector(
+            "#mitos-admin-elevation a"
+        );
+    
+        if (!button || button.dataset.eventsBound) {
+            return;
+        }
+    
+        button.dataset.eventsBound = "true";
+    
+        button.addEventListener("click", event => {
+            event.preventDefault();
+            
+            // TODO: Add the elevation action here
+            window.alert("Admin !");
+        });
+    }
+
+    
     function favoritesToolbarEvents() {
         const favoritesConfiguration = getFavoritesConfiguration();
 
@@ -966,6 +985,7 @@ function renderActivityTree(nodes, level = 0) {
         // Inject HTML
         MITOS.dom.html("#logout", "afterend", adminElevationBtnHTML());
         // Events
+        MITOS.dom.observer.element("#mitos-admin-elevation", favoritesToolbarEvents);
     }
     
     MITOS.admin.toolbar.addFavorites = function renderFavoritesToolbar() {
@@ -981,7 +1001,7 @@ function renderActivityTree(nodes, level = 0) {
         // Inject HTML
         MITOS.dom.html("#logo-group", "afterend", favoritesToolbarHTML());
         // Events
-        MITOS.dom.observer.element("#mitos-admin-favorites-toolbar", favoritesToolbarEvents);
+        MITOS.dom.observer.element("#mitos-admin-favorites-toolbar", adminElevationBtnEvents);
     }
 
     MITOS.admin.toolbar.addInstanceDetails = async function renderInstanceToolbar(match) {
