@@ -37,7 +37,7 @@
         return `
             <div id="mitos-admin-elevation" class="btn-header transparent pull-right">
                 <span>
-                    <a href="" title="Elevate" disabled>
+                    <a href="#" title="Elevate">
                         <i class="fa fa-unlock" aria-hidden="true"></i>
                     </a>
                 </span>
@@ -430,6 +430,7 @@
     
         button.addEventListener("click", event => {
             event.preventDefault();
+            event.stopPropagation();
             
             // TODO: Add the elevation action here
             window.alert("Admin !");
