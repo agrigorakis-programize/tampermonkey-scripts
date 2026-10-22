@@ -242,7 +242,7 @@
                 display: flex;
                 flex-wrap: wrap;
                 align-items: center;
-                gap: 6px 14px;
+                gap: 0px 8px;
                 font-size: 13px;
                 padding: 3px 12px;
                 margin: -8px;
