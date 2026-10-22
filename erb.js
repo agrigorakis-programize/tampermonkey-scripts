@@ -70,6 +70,23 @@
                 </div>
             </div>`;
     }
+    
+    function dealSearchDetailsHTML() {
+        return `
+            <div class="mitos-erb-search-details">
+                <div class="mitos-erb-search-detail">
+                    <span>Φάκελος:</span>
+                    <a href="#" class="mitos-erb-folder-link">N/A</a>
+                    <button type="button" class="mitos-erb-btn" data-value="" title="Copy Folder ID" disabled>📋</button>
+                </div>
+    
+                <div class="mitos-erb-search-detail">
+                    <span>Ροή:</span>
+                    <a href="#" class="mitos-erb-case-link" target="_blank" rel="noopener noreferrer">N/A</a>
+                    <button type="button" class="mitos-erb-btn" data-value="" title="Copy Instance ID" disabled>📋</button></div>
+            </div>`;
+    }
+
 
     /*** CSS ***/
     function taskToolbarCSS() {
@@ -217,6 +234,63 @@
             .mitos-admin-btn:hover {
                 border:1px solid lime;
             }`;
+    }
+
+    function dealSearchDetailsCSS() {
+        return `
+            .mitos-erb-search-details {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 6px 14px;
+                font-size: 12px;
+                background: #f7f7f7;
+                position: relative;
+                top: 8px;
+                padding: 3px 12px;
+                margin: -8px;
+                border-radius: 4px;
+            }
+    
+            .mitos-erb-search-detail {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+            }
+    
+            .mitos-erb-search-detail > span {
+                font-weight: 600;
+                white-space: nowrap;
+            }
+    
+            .mitos-erb-search-details a {
+                color: #1677b8;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    
+            .mitos-erb-search-details a:hover {
+                text-decoration: underline;
+            }
+    
+            .mitos-erb-btn {
+                padding: 3px 5px;
+                margin-left: 2px;
+                border: 1px solid whitesmoke;
+                border-radius: 6px;
+                background: transparent;
+                cursor: pointer;
+            }
+    
+            .mitos-erb-btn:hover:not(:disabled) {
+                border-color: #22beef;
+            }
+    
+            .mitos-erb-btn:disabled {
+                opacity: 0.45;
+                cursor: default;
+            }
+        `;
     }
 
     /*** Events ***/
