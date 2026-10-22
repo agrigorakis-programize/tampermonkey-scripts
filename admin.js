@@ -431,6 +431,7 @@
             event.stopPropagation();
             
             // TODO: Add the elevation action here
+            MITOS.log.info("Admin elevation button clicked");
             window.alert("Admin !");
         });
     }
