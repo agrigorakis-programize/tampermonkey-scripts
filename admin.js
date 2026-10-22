@@ -37,13 +37,7 @@
         return `
             <div id="mitos-admin-elevation" class="btn-header transparent pull-right">
                 <span>
-                    <a href="login.html"
-                       title="Elevate"
-                       data-action=""
-                       data-ng-hide="!"
-                       data-logout-msg="Elevate your privileges to an Administrator User">
-                        <i class="fa fa-unlock" aria-hidden="true"></i>
-                    </a>
+                    <i class="fa fa-unlock" aria-hidden="true"></i>
                 </span>
             </div>
         `;
