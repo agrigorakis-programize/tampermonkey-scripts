@@ -543,59 +543,62 @@
             MITOS.log.error(`Failed to probe history for instance ${instanceID}: ${err}`);
         });
     }
-
-    async function fetchActivityTree_DEPRECATED(activityId, depth = 0, maxDepth = 9) {
-        if (depth > maxDepth) {
-            return { id: activityId, truncated: true, children: [] };
+    
+    async function fetchActivityTree(activityId, depth = 0, maxDepth = 9) {
+        if (depth >= maxDepth) {
+            return [];
         }
-
+    
         try {
             const url = `${MITOS.config.InstancePropsURL}/${activityId}/history?pageSize=1000`;
             const data = await MITOS.api.get(url);
             const activities = data?.Items || [];
-
+    
             const treeNodes = [];
-          
+    
             for (const act of activities) {
                 const node = {
                     id: act.ActivityId,
                     desc: act.Description,
                     type: act.ActivityType,
                     status: act.State,
+                    children: []
                 };
-
-                // Recurse if SubProcess
-                if (act.ActivityType === "SubProcess" && act.State === "Faulted") {
-
-                    const children = await fetchActivityTree(act.ActivityId, depth + 1, maxDepth);
-
-                    // If children is an array, push all into node.children
-                    if (Array.isArray(children)) {
-                        node.children.push(...children);
-                    } else {
-                        node.children.push(children);
-                    }
+    
+                // Explore every subprocess to find nested faults
+                if (act.ActivityType === "SubProcess") {
+                    node.children = await fetchActivityTree(
+                        act.ActivityId,
+                        depth + 1,
+                        maxDepth
+                    );
                 }
-
-                treeNodes.push(node);
+    
+                // Keep only faulted activities and subprocesses
+                // that contain a faulted descendant
+                if (
+                    node.status === "Faulted" ||
+                    node.children.length > 0
+                ) {
+                    treeNodes.push(node);
+                }
             }
-
-            MITOS.log.info(`Instance <${activityId}> activities tree: <${treeNodes.length}> activities`);
-
-            // update modal once per fetch
+    
             if (depth === 0) {
                 updateActivityTreeModal(treeNodes);
             }
-
+    
             return treeNodes;
-        } 
-        catch (err) {
-            console.error(`Failed to fetch activity tree (last activity ID: ${activityId}):`, err);
+        } catch (err) {
+            console.error(
+                `Failed to fetch activity tree (activity ID: ${activityId}):`,
+                err
+            );
             return [];
         }
     }
 
-    async function fetchActivityTree(activityId, depth = 0, maxDepth = 9) {
+    async function fetchActivityTree_DEPRECATED(activityId, depth = 0, maxDepth = 9) {
         if (depth >= maxDepth) {
             return { id: activityId, truncated: true, children: [] };
         }
