@@ -417,8 +417,7 @@
         }
     
         button.dataset.eventsBound = "true";
-        MITOS.log.info("Admin elevation button clicked");
-    
+        
         button.addEventListener("click", async event => {
             event.preventDefault();
             event.stopPropagation();
