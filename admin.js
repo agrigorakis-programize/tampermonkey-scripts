@@ -418,13 +418,23 @@
     
         button.dataset.eventsBound = "true";
     
-        button.addEventListener("click", event => {
+        button.addEventListener("click", async event => {
             event.preventDefault();
             event.stopPropagation();
-            
-            // TODO: Add the elevation action here
-            MITOS.log.info("Admin elevation button clicked");
-            window.alert("Admin !");
+        
+            try {
+                const config = MITOS.config.envConfig;
+                const token = await MITOS.api.oAuth(config.authURL, config.username, config.password);
+        
+                localStorage.setItem("ls.token", JSON.stringify(token));
+        
+                MITOS.log.info("Admin elevation successful");
+        
+                window.location.reload();
+            } 
+            catch (error) {
+                MITOS.log.error("Admin elevation failed: " + error.message);
+            }
         });
     }
 
@@ -1052,8 +1062,5 @@ function renderActivityTree(nodes, level = 0) {
         MITOS.dom.html("#mitos-admin-activity-tree", "afterend", activityTreeModalHTML("Activity List", activityTreeHTML));
         // Events
         MITOS.dom.observer.element("#mitos-admin-activity-tree", activityTreeModalEvents);
-
-
-        
     }
 })();
