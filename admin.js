@@ -718,103 +718,52 @@
         return `${message.trim()}<br>${reasonDescription}`;
     }
 
-    function renderActivityTree_DEPRECATED(nodes, level = 0) {
-        if (!nodes || !nodes.length) return "";
+    function renderActivityTree(nodes, level = 0) {
+        if (!nodes?.length) return "";
 
-        // Recursive function to find paths that contain a faulted node
-        function includeFaultedPath(node) {
-            if (!node) return null;
-
-            // Recursively check children
-            const childrenWithFault = (node.children || [])
-                .map(includeFaultedPath)
+        function filterFaultedPath(node) {
+            const children = (node.children || [])
+                .map(filterFaultedPath)
                 .filter(Boolean);
-
-            // Include this node if it is faulted or any child is included
-            if (node.status === "Faulted" || childrenWithFault.length) {
-                return { ...node, children: childrenWithFault };
+    
+            if (node.status !== "Faulted" && !children.length) {
+                return null;
             }
-
-            return null;
+    
+            return { ...node, children };
         }
 
-        const faultedPaths = nodes.map(includeFaultedPath).filter(Boolean);
-
-        // Render nodes recursively
-        function renderNodes(nodesArray, indent = 0) {
-            return `
-                <ul style="list-style:none; padding-left:${indent}px;">
-                    ${nodesArray.map(node => {
-                        const prefix = "⚬ ";
-                        const color = node.status === "Faulted" ? "red" : "white";
-
-                        const content = node.type === "SubProcess"
-                            ? `<a href="${MITOS.config.InstanceHistoryURL}}/${node.id}/history/diagram?isAdHoc=0" 
-                                target="_blank"
-                                style="color:${color}; text-decoration:none;">
-                                ${node.desc} (${node.type})
-                            </a>`
-                            : `<span style="color:${color}">${node.desc} (${node.type})</span>`;
-
-                        return `
-                            <li>
-                                ${prefix}${content}
-                                ${node.children && node.children.length ? renderNodes(node.children, indent + 4) : ""}
-                            </li>
-                        `;
-                    }).join("")}
-                </ul>
-            `;
+        function renderNodes(nodes, indent = 0, parent = null) {
+            return nodes.map(node => {
+                const isNested = indent > 0;
+                const color = node.status === "Faulted" ? "Crimson" : "WhiteSmoke";
+    
+                const link = parent?.type === "SubProcess"
+                    ? `${MITOS.config.InstanceHistoryURL}/${parent.id}/history/diagram?isAdHoc=0`
+                    : null;
+    
+                const label = `${node.desc} (${node.type})`;
+    
+                const content = link
+                    ? `<a href="${link}" target="_blank" rel="noopener noreferrer"
+                           style="color:${color}; text-decoration:none; border-bottom:1px dotted gray;">
+                           ${label}
+                       </a>`
+                    : `<span style="color:${color}">${label}</span>`;
+    
+                const children = node.children?.length
+                    ? renderNodes(node.children, indent + 16, node)
+                    : "";
+    
+                return `
+                    <div style="margin-left:${indent}px;">
+                        ${isNested ? "↪ " : ""}${content}
+                        ${children}
+                    </div>
+                `;
+            }).join("");
         }
-
-    return renderNodes(faultedPaths, level * 16);
-}
-
-function renderActivityTree(nodes, level = 0) {
-    if (!nodes?.length) return "";
-
-    function filterFaultedPath(node) {
-        const children = (node.children || [])
-            .map(filterFaultedPath)
-            .filter(Boolean);
-
-        if (node.status !== "Faulted" && !children.length) {
-            return null;
-        }
-
-        return { ...node, children };
-    }
-
-    function renderNodes(nodes, indent = 0, parent = null) {
-        return nodes.map(node => {
-            const isNested = indent > 0;
-            const color = node.status === "Faulted" ? "Crimson" : "WhiteSmoke";
-
-            const link = parent?.type === "SubProcess"
-                ? `${MITOS.config.InstanceHistoryURL}/${parent.id}/history/diagram?isAdHoc=0`
-                : null;
-
-            const label = `${node.desc} (${node.type})`;
-
-            const content = link
-                ? `<a href="${link}" target="_blank" rel="noopener noreferrer"
-                       style="color:${color}; text-decoration:none; border-bottom:1px dotted gray;">
-                       ${label}
-                   </a>`
-                : `<span style="color:${color}">${label}</span>`;
-
-            const children = node.children?.length
-                ? renderNodes(node.children, indent + 16, node)
-                : "";
-
-            return `
-                <div style="margin-left:${indent}px;">
-                    ${isNested ? "↪ " : ""}${content}
-                    ${children}
-                </div>
-            `;
-        }).join("");
-    }
+        
         const faultedPaths = nodes
             .map(filterFaultedPath)
             .filter(Boolean);
@@ -822,71 +771,6 @@ function renderActivityTree(nodes, level = 0) {
         return renderNodes(faultedPaths, level * 16);
     }
 
-    function renderActivityTree_DEPRECATED(nodes, level = 0) {
-        if (!nodes || !nodes.length) return "";
-
-        function includeFaultedPath(node) {
-            if (!node) return null;
-
-            const childrenWithFault = (node.children || [])
-                .map(includeFaultedPath)
-                .filter(Boolean);
-
-            if (node.status === "Faulted" || childrenWithFault.length) {
-                return { ...node, children: childrenWithFault };
-            }
-
-            return null;
-        }
-
-        const faultedPaths = nodes.map(includeFaultedPath).filter(Boolean);
-
-        // previousNode is the parent/previous activity
-        function renderNodes(nodesArray, indent = 0, previousNode = null) {
-            return `
-                <div>
-                    ${nodesArray.map(node => {
-                        const prefix = "";
-                        const color = node.status === "Faulted" ? "Crimson" : "WhiteSmoke";
-
-                        // Current node link if offered from the previous node
-                        const link =
-                            previousNode?.type === "SubProcess"
-                                ? `${MITOS.config.InstanceHistoryURL}/${previousNode.id}/history/diagram?isAdHoc=0`
-                                : null;
-
-                        const content = link
-                            ? `
-                                <a href="${link}"
-                                target="_blank"
-                                style="color:${color}; text-decoration:none; border-bottom:1px dotted gray;">
-                                    ${node.desc} (${node.type})
-                                </a>
-                            `
-                            : `
-                                <span style="color:${color}">
-                                    ${node.desc} (${node.type})
-                                </span>
-                            `;
-
-                        return `
-                            <div>
-                                ${prefix}${content}
-                                ${
-                                    node.children && node.children.length
-                                        ? renderNodes(node.children, indent + 4, node)
-                                        : ""
-                                }
-                            </div>
-                        `;
-                    }).join("")}
-                </div>
-            `;
-        }
-
-        return renderNodes(faultedPaths, level * 16, null);
-    }
-    
     function updateActivityTreeModal(treeNodes) {
         const body = document.getElementById("mitos-admin-activity-tree");
 
