@@ -865,11 +865,7 @@
         // Inject HTML
         MITOS.dom.html("#logout", "afterend", adminElevationBtnHTML());
         // Events
-        //MITOS.dom.observer.element("#mitos-admin-elevation", adminElevationBtnEvents); 
-        MITOS.dom.observer.element("#mitos-admin-elevation", () => {
-            console.log("Observer callback executed");
-            adminElevationBtnEvents();
-        });
+        MITOS.dom.observer.element("#mitos-admin-elevation", adminElevationBtnEvents); 
     }
     
     MITOS.admin.toolbar.addFavorites = function renderFavoritesToolbar() {
