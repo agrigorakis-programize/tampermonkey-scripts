@@ -904,10 +904,13 @@
         let activityTree = await fetchActivityTree(instanceID);
         let activityTreeHTML = renderActivityTree(activityTree);
         // Render
-        MITOS.admin.toolbar.addInstanceActivityTree(activityTreeHTML);
-        } catch (err) {
+        try {
+            MITOS.admin.toolbar.addInstanceActivityTree(activityTreeHTML);
+        } 
+        catch (err) {
             MITOS.log.warn("Failed to trace instance activity", err);
-        } finally {
+        } 
+        finally {
             MITOS.dom.element.toggleVisibility("#mitos-admin-instance-detail-spinner", false);
         }
     }
