@@ -156,6 +156,7 @@
                         <span>
                             <i class="fa fa-bug"></i>
                             <span class="mitos-admin-instance-detail-text">Tree</span>
+                            <img id="mitos-admin-instance-detail-spinner" src="https://www.davidkingsbury.co.uk/wp-content/uploads/2021/08/lg.ring-loading-gif.gif" style="width:24px; height:24px;">
                         </span>
                     </h5>
                 </li>
