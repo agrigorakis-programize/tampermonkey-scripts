@@ -5,7 +5,8 @@
     MITOS.admin = MITOS.admin || {};
     MITOS.admin.toolbar = MITOS.admin.toolbar || {};
 
-    const spinnerURL = "https://www.davidkingsbury.co.uk/wp-content/uploads/2021/08/lg.ring-loading-gif.gif";
+    //const spinnerURL = "https://www.davidkingsbury.co.uk/wp-content/uploads/2021/08/lg.ring-loading-gif.gif";
+    const spinnerURL = "https://behalacollege.in/display_board/assets/images/ajax-spinner.gif";
     
     /*** Configuration ***/
     function getFavoritesConfiguration() {
