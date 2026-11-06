@@ -905,6 +905,11 @@
         let activityTreeHTML = renderActivityTree(activityTree);
         // Render
         MITOS.admin.toolbar.addInstanceActivityTree(activityTreeHTML);
+        } catch (err) {
+            MITOS.log.warn("Failed to trace instance activity", err);
+        } finally {
+            MITOS.dom.element.toggleVisibility("#mitos-admin-instance-detail-spinner", false);
+        }
     }
 
     MITOS.admin.toolbar.addInstanceFolder = function renderInstanceFolderID(folderID) {
