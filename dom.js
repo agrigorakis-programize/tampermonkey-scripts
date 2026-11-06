@@ -4,6 +4,7 @@
     window.MITOS = window.MITOS || {};
     MITOS.dom = MITOS.dom || {};
     MITOS.dom.observer = MITOS.dom.observer || {};
+	MITOS.dom.element = MITOS.dom.element || {};
 
     MITOS.dom.observer.element = function observeElement(selector, callback = null) {
         const currentStack = new Error().stack;
@@ -261,6 +262,21 @@
             MITOS.log.info(`Updated element (attribute) <${selector} | ${attributeName} | ${value}>`);
         });
     };
+
+	MITOS.dom.element.toggleVisibility = function toggleVisibility(selector, visible = null) {
+	    if (!selector) {
+	        MITOS.log.warn("Element selector not provided");
+	        return;
+	    }
+	
+	    MITOS.dom.observer.element(selector, el => {
+	        const isVisible = getComputedStyle(el).visibility !== "hidden";
+	
+	        el.style.visibility = visible === null ? (isVisible ? "hidden" : "visible") : (visible ? "visible" : "hidden");
+	
+	        MITOS.log.info(`Element visibility updated <${selector} | ${el.style.visibility}>`);
+	    });
+	};
 
     MITOS.dom.ping = function(caller = "Unknown") {
 		const now = new Date();
